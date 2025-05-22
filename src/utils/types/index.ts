@@ -25,10 +25,10 @@ export interface CartItem extends Product {
 
 export interface AppContextType {
   cart: CartItem[];
-  favorites: number[];
+  favorites: Product[];
   productList: Product[];
   addReview: (productId: number, newReview: Review) => void;
-  addToCart: (product: Product) => void;
+  addToCart: (product: Product, quantity? : number) => void;
   reduceFromCart: (productId: number) => void;
   clearCart: () => void;
   toggleFavorite: (productId: number) => void;

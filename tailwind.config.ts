@@ -13,7 +13,7 @@ const config: Config = {
         'white-custom': '#FFFFFF',   // Blanco para textos o fondos claros
       },
       fontFamily: {
-        sans: ['"Poppins"', 'sans-serif'], // Reemplaza "Your Font" con la fuente del diseño si la tienes
+        poppins: ['"Poppins"', 'sans-serif'], 
       },
     },
   },
