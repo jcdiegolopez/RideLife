@@ -28,7 +28,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ isOpen, onClose }) => {
     onClose();
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleSearch();
     } else if (e.key === "Escape") {
@@ -36,7 +36,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  const handleBackdropClick = (e) => {
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (e.target === e.currentTarget) {
       handleClose();
     }
