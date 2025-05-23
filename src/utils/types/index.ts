@@ -34,3 +34,7 @@ export interface AppContextType {
   toggleFavorite: (productId: number) => void;
   getTotal: () => number;
 }
+
+export type FilterButtonProps = {
+  onClick: () => void;
+};

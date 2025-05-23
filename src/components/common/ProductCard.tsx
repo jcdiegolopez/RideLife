@@ -1,9 +1,8 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { FaHeart, FaRegHeart } from 'react-icons/fa';
-import StarRating from './StarRating';
 import AppContext from '../../context/AppContext';
 import type { Product } from '../../utils/types';
+import ProductCardInteractions from '../ProductList/ProductCardInteractions';
 
 interface ProductCardProps {
   product: Product;
@@ -27,44 +26,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             }}
           />
         </div>
-
-        <div className="flex flex-col px-1 py-2 space-y-1">
-          <div className="flex justify-between">
-            <StarRating rating={product.rating} />
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                toggleFavorite(product.id);
-              }}
-              className=""
-            >
-              {isFavorite ? (
-                <FaHeart className="text-accent-red" />
-              ) : (
-                <FaRegHeart className="text-accent-pink hover:text-accent-red" />
-              )}
-            </button>
-          </div>
-
-          <h3 className="text-md p-0 m-0 truncate">{product.name}</h3>
-
-          <div className="flex items-center justify-between p-0 m-0">
-            <div>
-              {product.discount ? (
-                <div className="flex items-center gap-2 p-0 m-0">
-                  <span className="text-accent-red font-bold">
-                    ${product.price - (product.price * product.discount) / 100}
-                  </span>
-                  <span className="text-accent-pink line-through text-sm">
-                    ${product.price}
-                  </span>
-                </div>
-              ) : (
-                <span className="font-bold">${product.price}</span>
-              )}
-            </div>
-          </div>
-        </div>
+        <ProductCardInteractions product={product} isFavorite={isFavorite} toggleFavorite={toggleFavorite} />
       </div>
     </Link>
   );

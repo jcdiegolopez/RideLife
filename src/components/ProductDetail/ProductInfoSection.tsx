@@ -1,8 +1,10 @@
 import { useState, useContext } from "react";
-import { FaHeart, FaRegHeart, FaMinus, FaPlus } from "react-icons/fa";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import type { Product } from "../../utils/types";
 import AppContext from "../../context/AppContext";
-import { BiCategory } from "react-icons/bi";
+import QuantitySelector from "./QuantitySelector";
+import ProductCategory from "./ProductCategory";
+import ProductPrice from "../common/ProductPrice";
 
 interface ProductInfoSectionProps {
   product: Product;
@@ -34,22 +36,11 @@ const ProductInfoSection = ({ product }: ProductInfoSectionProps) => {
         {product.name}
       </h1>
 
-      <div className="flex items-center">
-        {product.discount > 0 ? (
-          <>
-            <span className="text-accent-red font-semibold text-2xl">
-              ${product.price - (product.price * product.discount) / 100}
-            </span>
-            <span className="text-accent-pink line-through text-lg ml-2">
-              ${product.price}
-            </span>
-          </>
-        ) : (
-          <span className="font-semibold text-white-custom text-2xl">
-            ${product.price}
-          </span>
-        )}
-      </div>
+      <ProductPrice
+        price={product.price}
+        discount={product.discount}
+        size="lg"
+      />
 
       <button
         onClick={() => toggleFavorite(product.id)}
@@ -63,51 +54,12 @@ const ProductInfoSection = ({ product }: ProductInfoSectionProps) => {
         <span>{isFavorite ? "Remove from Favorite" : "Add to Favorite"}</span>
       </button>
 
-      <div className="flex items-center gap-2">
-        <div className="w-8 h-8 bg-secondary-dark rounded-lg flex items-center justify-center text-white-custom">
-          <BiCategory />
-        </div>
-        <div>
-          <p className="text-white-custom font-medium text-sm">Category</p>
-          <p className="text-accent-pink text-sm capitalize">
-            {product.category}
-          </p>
-        </div>
-      </div>
-
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-white-custom">Quantity</h3>
-
-        <div className="flex items-center justify-between">
-          <span className="text-accent-pink">Item Quantity</span>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => handleQuantityChange(-1)}
-              disabled={quantity <= 1}
-              className="w-8 h-8 bg-secondary-dark hover:bg-accent-pink disabled:opacity-50 disabled:cursor-not-allowed rounded-full flex items-center justify-center text-white transition-colors duration-200"
-            >
-              <FaMinus size={12} />
-            </button>
-            <span className="text-white-custom font-medium w-8 text-center">
-              {quantity}
-            </span>
-            <button
-              onClick={() => handleQuantityChange(1)}
-              disabled={quantity >= 9}
-              className="w-8 h-8 bg-secondary-dark hover:bg-accent-pink disabled:opacity-50 disabled:cursor-not-allowed rounded-full flex items-center justify-center text-white transition-colors duration-200"
-            >
-              <FaPlus size={12} />
-            </button>
-          </div>
-        </div>
-
-        <button
-          onClick={handleAddToCart}
-          className="w-full bg-accent-red hover:bg-red-600 text-white py-3 rounded-lg font-semibold transition-colors duration-200"
-        >
-          Add to Cart
-        </button>
-      </div>
+      <ProductCategory category={product.category} />
+      <QuantitySelector
+        quantity={quantity}
+        handleQuantityChange={handleQuantityChange}
+        handleAddToCart={handleAddToCart}
+      />
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import { calculateRatingDistribution } from "../../utils";
 import type { Product } from "../../utils/types";
 import StarRating from "../common/StarRating";
 
@@ -6,14 +7,7 @@ interface ProductRatingOverviewProps {
 }
 
 const ProductRatingOverview = ({ product }: ProductRatingOverviewProps) => {
-  const ratingDistribution = [5, 4, 3, 2, 1].map((star) => {
-    const count = product.reviews.filter(
-      (review) => Math.floor(review.rating) === star
-    ).length;
-    const percentage =
-      product.reviews.length > 0 ? (count / product.reviews.length) * 100 : 0;
-    return { star, count, percentage };
-  });
+  const ratingDistribution = calculateRatingDistribution(product.reviews);
 
   const totalReviews = product.reviews.length;
 

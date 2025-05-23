@@ -1,9 +1,13 @@
 import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { FaListUl } from 'react-icons/fa';
 import { BiDollar } from 'react-icons/bi';
 import { BsStars } from 'react-icons/bs';
 import { MdStarRate } from 'react-icons/md';
+import { useSearchParams } from 'react-router-dom';
+import ClearSearchButton from './ClearSearchButton';
+import SortButton from './SortButton';
+import CategorySelector from './CategorySelector';
+import ResetButton from './ResetButton';
+
 
 interface FilterButtonsProps {
   categories: string[];
@@ -70,75 +74,33 @@ const FilterButtons = ({ categories }: FilterButtonsProps) => {
 
   return (
     <div className="flex flex-wrap gap-3">
-      <div className="relative">
-        <button
-          onClick={() => setIsCategoryOpen(!isCategoryOpen)}
-          className="hover:scale-110 transition-transform duration-200 flex items-center gap-2 bg-secondary-dark rounded-md px-4 py-2 text-white-custom"
-        >
-          <FaListUl className="text-white-custom" />
-          <span className='min-w-16'>{selectedCategory || 'Category'}</span>
-        </button>
-        {isCategoryOpen && (
-          <div className="absolute top-full mt-1 w-full bg-secondary-dark rounded-md shadow-lg z-10">
-            <button
-              onClick={() => handleCategorySelect(null)}
-              className="w-full text-left px-4 py-2 text-white-custom hover:scale-105 transition-transform duration-200 hover:text-accent-pink"
-            >
-              All
-            </button>
-            {categories.map((category) => (
-              <>
-              <div className='w-full bg-accent-pink h-[0.5px]'></div>
-              <button
-                key={category}
-                onClick={() => handleCategorySelect(category)}
-                className="w-full text-left px-4 py-2 text-white-custom hover:scale-105 transition-transform duration-200 hover:text-accent-pink"
-              >
-                {category}
-              </button>
-              </>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <button
+      <CategorySelector
+        categories={categories}
+        selectedCategory={selectedCategory}
+        handleCategorySelect={handleCategorySelect}
+        isCategoryOpen={isCategoryOpen}
+        setIsCategoryOpen={setIsCategoryOpen}
+      />
+      <SortButton
+        label={sortBy === 'price-asc' ? 'Price (Low to High)' : sortBy === 'price-desc' ? 'Price (High to Low)' : 'Price'}
+        icon={BiDollar}
+        isActive={sortBy && sortBy.includes('price')}
         onClick={handlePriceSortClick}
-        className={`hover:scale-110 transition-transform duration-200 flex items-center gap-2 rounded-md px-4 py-2 text-white-custom ${sortBy && sortBy.includes('price') ? 'bg-accent-red' : 'bg-secondary-dark'}`}
-      >
-        <BiDollar className="text-white-custom" />
-        <span>{sortBy === 'price-asc' ? 'Price (Low to High)' : sortBy === 'price-desc' ? 'Price (High to Low)' : 'Price'}</span>
-      </button>
-
-      <button
+      />
+      <SortButton
+        label="New Arrivals"
+        icon={BsStars}
+        isActive={sortBy === 'new'}
         onClick={handleNewArrivalsClick}
-        className={`hover:scale-110 transition-transform duration-200 flex items-center gap-2 rounded-md px-4 py-2 text-white-custom ${sortBy === 'new' ? 'bg-accent-red' : 'bg-secondary-dark'}`}
-      >
-        <BsStars className="text-white-custom" />
-        <span>New Arrivals</span>
-      </button>
-
-      <button
+      />
+      <SortButton
+        label="Rating"
+        icon={MdStarRate}
+        isActive={sortBy === 'rating'}
         onClick={handleRatingClick}
-        className={`hover:scale-110 transition-transform duration-200 flex items-center gap-2 rounded-md px-4 py-2 text-white-custom ${sortBy === 'rating' ? 'bg-accent-red' : 'bg-secondary-dark'}`}
-      >
-        <MdStarRate className="text-white-custom" />
-        <span>Rating</span>
-      </button>
-
-      <button
-        onClick={resetFilters}
-        className="hover:scale-110 transition-transform duration-200 flex items-center gap-2 bg-white-custom/20 rounded-md px-4 py-2 text-white-custom"
-      >
-        <span>Reset Filters</span>
-      </button>
-      <button
-        onClick={clearSearch}
-        className="hover:scale-110 transition-transform duration-200 flex items-center gap-2 bg-white-custom/20 rounded-md px-4 py-2 text-white-custom"
-      >
-        <span>Clear Search</span>
-      </button>
-      
+      />
+      <ResetButton onClick={resetFilters} />
+      <ClearSearchButton onClick={clearSearch} />
     </div>
   );
 };
